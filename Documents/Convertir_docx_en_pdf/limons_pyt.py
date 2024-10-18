@@ -88,6 +88,21 @@ class Limons_plateaux(object):
         arcpy.management.SelectLayerByAttribute("ge", "NEW_SELECTION", "DESCRIPTIO = 'Limons des plateaux'")
         arcpy.management.CopyFeatures("ge", "limons_plateaux")
 
+        # Extraction 4 : extraire les alluvions
+        arcpy.MakeFeatureLayer_management(geol, "a")
+        arcpy.management.SelectLayerByAttribute("a", "NEW_SELECTION", "DESCRIPTIO LIKE '%Alluvions%'")
+        arcpy.management.CopyFeatures("a", "Alluvions")
+    
+        # Extraction 5 : extraire le réseau hydro
+        arcpy.MakeFeatureLayer_management(geol, "b")
+        arcpy.management.SelectLayerByAttribute("b", "NEW_SELECTION", "DESCRIPTIO LIKE '%Hydro%'")
+        arcpy.management.CopyFeatures("b", "hydro")
+    
+          # Extraction 6 : extraire le reste
+        arcpy.MakeFeatureLayer_management(geol, "c")
+        arcpy.management.SelectLayerByAttribute("c", "NEW_SELECTION", "DESCRIPTIO = 'Limons des plateaux' Or DESCRIPTIO LIKE '%Hydro%' Or DESCRIPTIO LIKE '%Alluvions%'", "INVERT")
+        arcpy.management.CopyFeatures("c", "Reste")
+
         # Croisement limon - communes
         arcpy.MakeFeatureLayer_management("communes_1k_hab", "ye")
         arcpy.management.SelectLayerByLocation("ye", "HAVE_THEIR_CENTER_IN", "limons_plateaux")
