@@ -51,7 +51,7 @@ class Limons_plateaux(object):
         displayName="Fichier en sortie",
         name="output",
         datatype="DEWorkspace",
-        parameterType="Required",
+        parameterType="Derived",
         direction="Output")
 
         parameters = [gdb_output, communes, geol, output]
